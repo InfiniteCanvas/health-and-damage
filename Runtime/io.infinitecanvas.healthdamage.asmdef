@@ -1,0 +1,24 @@
+{
+  "name": "io.infinitecanvas.healthdamage",
+  "rootNamespace": "InfiniteCanvas.HealthDamageSystem",
+  "references": [
+    "io.infinitecanvas.utilities",
+    "Unity.Addressables",
+    "Unity.ResourceManager",
+    "Unity.Entities",
+    "Unity.Collections",
+    "VContainer",
+    "MessagePipe.VContainer",
+    "MessagePipe",
+    "UniTask"
+  ],
+  "includePlatforms": [],
+  "excludePlatforms": [],
+  "allowUnsafeCode": false,
+  "overrideReferences": false,
+  "precompiledReferences": [],
+  "autoReferenced": true,
+  "defineConstraints": [],
+  "versionDefines": [],
+  "noEngineReferences": false
+}
