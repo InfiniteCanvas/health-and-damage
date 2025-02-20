@@ -27,6 +27,6 @@ namespace InfiniteCanvas.HealthDamageSystem.Damage
 
     #endregion
 
-        public override string ToString() => $"{this.name}, {nameof(TypeID)}: {TypeID}";
+        public override string ToString() => $"{name}, {nameof(TypeID)}: {TypeID}";
     }
 }

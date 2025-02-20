@@ -1,7 +1,8 @@
 namespace InfiniteCanvas.HealthDamageSystem
 {
-    public struct Health
+    public class Health
     {
+        public int   EntityId;
         public float MaxHP;
         public float CurrentHP;
     }
