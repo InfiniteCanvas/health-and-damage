@@ -1,5 +1,6 @@
 ﻿using System;
 using InfiniteCanvas.HealthDamageSystem.Messages;
+using JetBrains.Annotations;
 using MessagePipe;
 using Unity.Collections;
 using UnityEngine;
@@ -7,9 +8,11 @@ using VContainer.Unity;
 
 namespace InfiniteCanvas.HealthDamageSystem.Resistances
 {
-    public sealed class ResistanceSystem : IDisposable, IFixedTickable
+    [UsedImplicitly]
+    public sealed class ResistanceSystem : IDisposable, IStartable
     {
         private readonly IDisposable                           _disposable;
+        // key: entity id
         private          NativeHashMap<int, ResistanceProfile> _profiles;
 
         public ResistanceSystem(ISubscriber<AddResistanceToTarget> addResistanceToTarget)
@@ -31,8 +34,6 @@ namespace InfiniteCanvas.HealthDamageSystem.Resistances
             _disposable?.Dispose();
         }
 
-        public void FixedTick() { }
-
         public ResistanceProfile? GetProfile(int id) => _profiles.TryGetValue(id, out var profile) ? profile : null;
 
         private void AddResistanceToTargetHandler(AddResistanceToTarget message)
@@ -40,5 +41,7 @@ namespace InfiniteCanvas.HealthDamageSystem.Resistances
             if (_profiles.TryGetValue(message.TargetID, out var profile)) profile.Add(message.Resistance);
             else _profiles.Add(message.TargetID, new ResistanceProfile(message.Resistance));
         }
+
+        public void Start() { }
     }
 }

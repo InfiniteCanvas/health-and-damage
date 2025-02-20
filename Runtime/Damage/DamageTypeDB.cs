@@ -1,20 +1,35 @@
 ﻿using System.Collections.Generic;
+using InfiniteCanvas.Utilities;
+using JetBrains.Annotations;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
+using UnityEngine.ResourceManagement.AsyncOperations;
+using VContainer.Unity;
 
 namespace InfiniteCanvas.HealthDamageSystem.Damage
 {
-    public static class DamageTypeDB
+    [UsedImplicitly]
+    public class DamageTypeDB : IStartable
     {
-        private static readonly Dictionary<int, DamageType> _typeMap = new();
+        /// <summary>
+        /// Gets the DamageType by Id.
+        /// </summary>
+        /// <param name="typeId">DamageType's <see cref="DamageType.TypeID"/></param>
+        /// <remarks>
+        /// Result can be null if Id is not found
+        /// </remarks>
+        public DamageType this[int typeId] => _typeMap.GetValueOrDefault(typeId);
 
-        [RuntimeInitializeOnLoadMethod]
-        private static void Initialize()
+        private readonly Dictionary<int, DamageType> _typeMap = new();
+
+        public void Start()
         {
-            // Auto-register all damage types in Resources
-            var types = Resources.LoadAll<DamageType>("");
-            foreach (var t in types) _typeMap[t.TypeID] = t;
+            Debug.Log("loading damage types..");
+            var damageTypes = AddressablesLoader.GetAllAssets<DamageType>(Addressables.MergeMode.Union, "DamageType");
+            foreach (var damageType in damageTypes)
+            {
+                _typeMap.Add(damageType.TypeID, damageType);
+            }
         }
-
-        public static DamageType Resolve(int typeID) => _typeMap.GetValueOrDefault(typeID);
     }
 }
